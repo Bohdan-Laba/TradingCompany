@@ -59,11 +59,6 @@ namespace TradingCompany.BLL.Concrete
         //    var ids =
         //}
 
-        public List<OrderDto> GetOrdersList()
-        {
-            return _orderDal.GetAllOrders();
-        }
-
         public OrderDto Add(OrderDto order)
         {
             return _orderDal.CreateOrder(order);
@@ -90,29 +85,9 @@ namespace TradingCompany.BLL.Concrete
             return _itemDal.GetItem(itemName);
         }
 
-        public RoleDto GetRole(string roleName)
-        {
-            return _roleDal.GetRoleByName(roleName);
-        }
-
         public ItemDto GetItem(int itemId)
         {
             return _itemDal.GetItem(itemId);
-        }
-
-        public RoleDto GetRole(int roleId)
-        {
-            return _roleDal.GetRoleById(roleId);
-        }
-
-        public UserDto GetUser(int userId)
-        {
-            return _userDal.GetUserById(userId);
-        }
-
-        public StatusDto GetStatus(int statusId)
-        {
-            return _statusDal.GetStatus(statusId);
         }
     }
 }

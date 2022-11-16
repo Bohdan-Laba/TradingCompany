@@ -62,6 +62,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AuthManagerTests.cs" />
+    <Compile Include="ManagerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -72,6 +73,10 @@
     <ProjectReference Include="..\TradingCompany.DAL\TradingCompany.DAL.csproj">
       <Project>{dcab5b7f-c0b2-46c4-9baf-6d46440db5f8}</Project>
       <Name>TradingCompany.DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TradingCompany.DTO\TradingCompany.DTO.csproj">
+      <Project>{713C79BF-6DA2-4583-B004-E2119A53AEA4}</Project>
+      <Name>TradingCompany.DTO</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
