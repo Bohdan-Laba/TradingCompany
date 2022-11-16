@@ -14,21 +14,15 @@ namespace TradingCompany.DAL
     
     public partial class Order
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Order()
-        {
-            this.OrderItems = new HashSet<OrderItem>();
-        }
-    
         public int OrderID { get; set; }
         public int UserID { get; set; }
-        public double TotalPrice { get; set; }
+        public int ItemID { get; set; }
+        public int Quantity { get; set; }
         public int StatusID { get; set; }
         public System.DateTime RowInsertTime { get; set; }
     
+        public virtual Item Item { get; set; }
         public virtual Status Status { get; set; }
         public virtual User User { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<OrderItem> OrderItems { get; set; }
     }
 }

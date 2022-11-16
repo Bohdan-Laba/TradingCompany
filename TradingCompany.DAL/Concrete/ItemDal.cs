@@ -63,6 +63,15 @@ namespace DAL.Concrete
             }
         }
 
+        public ItemDto GetItem(string name)
+        {
+            using (var entities = new TradingCompanyEntities())
+            {
+                var items = entities.Items.SingleOrDefault(obj => obj.Name == name);
+                return _mapper.Map<ItemDto>(items);
+            }
+        }
+
         public void UpdateItem(ItemDto item)
         {
             using (var entities = new TradingCompanyEntities())

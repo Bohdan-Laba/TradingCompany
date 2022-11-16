@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using TradingCompany.DAL.Concrete;
-using TradingCompany.DAL.Interfaces;
+using DAL.Concrete;
+using DAL.Interfaces;
 using TradingCompany.DTO;
 
 namespace TradingCompany.Console.Commands
@@ -57,8 +57,12 @@ namespace TradingCompany.Console.Commands
         {
             System.Console.Write("Enter a role id: ");
             int _id = int.Parse(System.Console.ReadLine());
+            System.Console.WriteLine("Leave an empty field if you do not want to change the row");
             System.Console.Write("Enter a new role name: ");
-            string _name = System.Console.ReadLine();
+            string nameStr = System.Console.ReadLine();
+            var thisItem = _dal.GetRoleById(_id);
+            string _name = string.IsNullOrWhiteSpace(nameStr) ? thisItem.Name : nameStr;
+
 
             var newItem = new RoleDto
             {

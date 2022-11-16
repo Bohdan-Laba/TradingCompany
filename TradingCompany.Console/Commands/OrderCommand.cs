@@ -1,6 +1,6 @@
 ﻿//using AutoMapper;
-//using TradingCompany.DAL.Concrete;
-//using TradingCompany.DAL.Interfaces;
+//using DAL.Concrete;
+//using DAL.Interfaces;
 
 //namespace TradingCompany.Console.Commands
 //{

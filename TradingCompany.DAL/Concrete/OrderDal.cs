@@ -47,8 +47,7 @@ namespace DAL.Concrete
         {
             using (var entities = new TradingCompanyEntities())
             {
-                var orders = entities.Orders.ToList();
-                return _mapper.Map<List<OrderDto>>(orders);
+                return _mapper.Map<List<OrderDto>>(entities.Orders);
             }
         }
 
@@ -61,20 +60,25 @@ namespace DAL.Concrete
             }
         }
 
-        public void UpdateOrder(OrderDto order)
+        public bool UpdateOrder(OrderDto order)
         {
-
+            bool updated = false;
             using (var entities = new TradingCompanyEntities())
             {
                 var orderf = entities.Orders.SingleOrDefault(obj => obj.OrderID == order.OrderID);
                 if (orderf != null)
                 {
+                    orderf.UserID = order.UserID;
                     orderf.StatusID = order.StatusID;
-                    orderf.TotalPrice = order.TotalPrice;
+                    orderf.Quantity = order.Quantity;
+                    orderf.ItemID = order.ItemID;
                     orderf.RowInsertTime = DateTime.UtcNow;
                     entities.SaveChanges();
+
+                    updated = true;
                 }
             }
+            return updated;
         }
     }
 }

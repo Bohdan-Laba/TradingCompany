@@ -24,6 +24,12 @@ namespace TradingCompany.Console.Menus
                     case "3":
                         UserMenu.ShowMenu();
                         break;
+                    case "4":
+                        RoleMenu.ShowMenu();
+                        break;
+                    //case "5":
+                    //    OrderMenu.ShowMenu();
+                    //    break;
                     case "0":
                         show = false;
                         break;
@@ -43,6 +49,7 @@ namespace TradingCompany.Console.Menus
 1. Move to Status Menu.
 2. Move to Item Menu.
 3. Move to User Menu.
+4. Move to Role Menu.
 0. Return to Main Menu;
 Please choose an action: ");
         }

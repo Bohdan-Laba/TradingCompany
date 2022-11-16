@@ -9,6 +9,7 @@ namespace DAL.Interfaces
         List<ItemDto> GetAllItems();
         ItemDto CreateItem(ItemDto Item);
         ItemDto GetItem(int id);
+        ItemDto GetItem(string name);
         void UpdateItem(ItemDto Item);
         void DeleteItem(int id);
     }

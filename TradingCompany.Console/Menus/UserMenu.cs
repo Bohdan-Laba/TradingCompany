@@ -24,10 +24,10 @@ namespace TradingCompany.Console.Menus
                         UserCommand.AddUser();
                         break;
                     case "4":
-                        //UserCommand.UpdateUser();
+                        UserCommand.UpdateUser();
                         break;
                     case "5":
-                        //UserCommand.DeleteUser();
+                        UserCommand.DeleteUser();
                         break;
                     case "0":
                         show = false;

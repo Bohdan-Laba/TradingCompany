@@ -17,7 +17,7 @@ namespace TradingCompany.DAL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Item()
         {
-            this.OrderItems = new HashSet<OrderItem>();
+            this.Orders = new HashSet<Order>();
         }
     
         public int ItemID { get; set; }
@@ -29,6 +29,6 @@ namespace TradingCompany.DAL
         public System.DateTime RowUpdateTime { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<OrderItem> OrderItems { get; set; }
+        public virtual ICollection<Order> Orders { get; set; }
     }
 }

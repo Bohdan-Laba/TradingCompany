@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using TradingCompany.DAL;
-using TradingCompany.DAL.Concrete;
-using TradingCompany.DAL.Interfaces;
+using DAL.Concrete;
+using DAL.Interfaces;
 using TradingCompany.DTO;
 
 namespace TradingCompany.Console.Commands

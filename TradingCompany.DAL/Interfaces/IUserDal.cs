@@ -9,8 +9,8 @@ namespace DAL.Interfaces
         UserDto CreateUser(string login, string email, string password, List<RoleDto> roles);
         UserDto GetUserById(int id);
         UserDto GetUserByLogin(string login);
-        void UpdateUser(UserDto user);
-        //void UpdateRoles(string login, List<string> roles);????
+        UserDto UpdateUser(int id, string login, string email, string password, List<RoleDto> roles);
+        //void UpdateRoles(UserDto user, List<RoleDto> roles);
         void DeleteUser(int id);
         bool Login(string login, string password);
     }

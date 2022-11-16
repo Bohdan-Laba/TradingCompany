@@ -53,7 +53,7 @@ namespace TradingCompany.WF
                      .RegisterType<IOrderDal, OrderDal>()
                      .RegisterType<IRoleDal, RoleDal>()
                      .RegisterType<IStatusDal, StatusDal>()
-                     .RegisterType<IItemManager, ItemManager>()
+                     .RegisterType<IManager, Manager>()
                      .RegisterType<IAuthManager, AuthManager>();
         }
     }

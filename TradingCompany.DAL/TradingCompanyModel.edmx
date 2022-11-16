@@ -23,18 +23,9 @@
           </Key>
           <Property Name="OrderID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="UserID" Type="int" Nullable="false" />
-          <Property Name="TotalPrice" Type="float" Nullable="false" />
-          <Property Name="StatusID" Type="int" Nullable="false" />
-          <Property Name="RowInsertTime" Type="datetime" Nullable="false" />
-        </EntityType>
-        <EntityType Name="OrderItem">
-          <Key>
-            <PropertyRef Name="OrderID" />
-            <PropertyRef Name="ItemID" />
-          </Key>
-          <Property Name="OrderID" Type="int" Nullable="false" />
           <Property Name="ItemID" Type="int" Nullable="false" />
           <Property Name="Quantity" Type="int" Nullable="false" />
+          <Property Name="StatusID" Type="int" Nullable="false" />
           <Property Name="RowInsertTime" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="Role">
@@ -84,6 +75,18 @@
           <Property Name="RoleID" Type="int" Nullable="false" />
           <Property Name="RowInsertTime" Type="datetime" Nullable="false" />
         </EntityType>
+        <Association Name="FK_Order_Item">
+          <End Role="Item" Type="Self.Item" Multiplicity="1" />
+          <End Role="Order" Type="Self.Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Item">
+              <PropertyRef Name="ItemID" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="ItemID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Order_Status">
           <End Role="Status" Type="Self.Status" Multiplicity="1" />
           <End Role="Order" Type="Self.Order" Multiplicity="*" />
@@ -105,30 +108,6 @@
             </Principal>
             <Dependent Role="Order">
               <PropertyRef Name="UserID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_OrderItem_Item">
-          <End Role="Item" Type="Self.Item" Multiplicity="1" />
-          <End Role="OrderItem" Type="Self.OrderItem" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Item">
-              <PropertyRef Name="ItemID" />
-            </Principal>
-            <Dependent Role="OrderItem">
-              <PropertyRef Name="ItemID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_OrderItem_Order">
-          <End Role="Order" Type="Self.Order" Multiplicity="1" />
-          <End Role="OrderItem" Type="Self.OrderItem" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Order">
-              <PropertyRef Name="OrderID" />
-            </Principal>
-            <Dependent Role="OrderItem">
-              <PropertyRef Name="OrderID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -159,12 +138,15 @@
         <EntityContainer Name="TradingCompanyModelStoreContainer">
           <EntitySet Name="Item" EntityType="Self.Item" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Order" EntityType="Self.Order" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="OrderItem" EntityType="Self.OrderItem" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Status" EntityType="Self.Status" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserRole" EntityType="Self.UserRole" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Order_Item" Association="Self.FK_Order_Item">
+            <End Role="Item" EntitySet="Item" />
+            <End Role="Order" EntitySet="Order" />
+          </AssociationSet>
           <AssociationSet Name="FK_Order_Status" Association="Self.FK_Order_Status">
             <End Role="Status" EntitySet="Status" />
             <End Role="Order" EntitySet="Order" />
@@ -172,14 +154,6 @@
           <AssociationSet Name="FK_Order_User" Association="Self.FK_Order_User">
             <End Role="User" EntitySet="User" />
             <End Role="Order" EntitySet="Order" />
-          </AssociationSet>
-          <AssociationSet Name="FK_OrderItem_Item" Association="Self.FK_OrderItem_Item">
-            <End Role="Item" EntitySet="Item" />
-            <End Role="OrderItem" EntitySet="OrderItem" />
-          </AssociationSet>
-          <AssociationSet Name="FK_OrderItem_Order" Association="Self.FK_OrderItem_Order">
-            <End Role="Order" EntitySet="Order" />
-            <End Role="OrderItem" EntitySet="OrderItem" />
           </AssociationSet>
           <AssociationSet Name="FK_UserRole_Role" Association="Self.FK_UserRole_Role">
             <End Role="Role" EntitySet="Role" />
@@ -206,7 +180,7 @@
           <Property Name="Availability" Type="Boolean" Nullable="false" />
           <Property Name="RowInsertTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="RowUpdateTime" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="OrderItems" Relationship="Self.FK_OrderItem_Item" FromRole="Item" ToRole="OrderItem" />
+          <NavigationProperty Name="Orders" Relationship="Self.FK_Order_Item" FromRole="Item" ToRole="Order" />
         </EntityType>
         <EntityType Name="Order">
           <Key>
@@ -214,24 +188,13 @@
           </Key>
           <Property Name="OrderID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="UserID" Type="Int32" Nullable="false" />
-          <Property Name="TotalPrice" Type="Double" Nullable="false" />
-          <Property Name="StatusID" Type="Int32" Nullable="false" />
-          <Property Name="RowInsertTime" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="Status" Relationship="Self.FK_Order_Status" FromRole="Order" ToRole="Status" />
-          <NavigationProperty Name="User" Relationship="Self.FK_Order_User" FromRole="Order" ToRole="User" />
-          <NavigationProperty Name="OrderItems" Relationship="Self.FK_OrderItem_Order" FromRole="Order" ToRole="OrderItem" />
-        </EntityType>
-        <EntityType Name="OrderItem">
-          <Key>
-            <PropertyRef Name="OrderID" />
-            <PropertyRef Name="ItemID" />
-          </Key>
-          <Property Name="OrderID" Type="Int32" Nullable="false" />
           <Property Name="ItemID" Type="Int32" Nullable="false" />
           <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <Property Name="StatusID" Type="Int32" Nullable="false" />
           <Property Name="RowInsertTime" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="Item" Relationship="Self.FK_OrderItem_Item" FromRole="OrderItem" ToRole="Item" />
-          <NavigationProperty Name="Order" Relationship="Self.FK_OrderItem_Order" FromRole="OrderItem" ToRole="Order" />
+          <NavigationProperty Name="Item" Relationship="Self.FK_Order_Item" FromRole="Order" ToRole="Item" />
+          <NavigationProperty Name="Status" Relationship="Self.FK_Order_Status" FromRole="Order" ToRole="Status" />
+          <NavigationProperty Name="User" Relationship="Self.FK_Order_User" FromRole="Order" ToRole="User" />
         </EntityType>
         <EntityType Name="Role">
           <Key>
@@ -286,14 +249,14 @@
           <NavigationProperty Name="Role" Relationship="Self.FK_UserRole_Role" FromRole="UserRole" ToRole="Role" />
           <NavigationProperty Name="User" Relationship="Self.FK_UserRole_User" FromRole="UserRole" ToRole="User" />
         </EntityType>
-        <Association Name="FK_OrderItem_Item">
+        <Association Name="FK_Order_Item">
           <End Role="Item" Type="Self.Item" Multiplicity="1" />
-          <End Role="OrderItem" Type="Self.OrderItem" Multiplicity="*" />
+          <End Role="Order" Type="Self.Order" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Item">
               <PropertyRef Name="ItemID" />
             </Principal>
-            <Dependent Role="OrderItem">
+            <Dependent Role="Order">
               <PropertyRef Name="ItemID" />
             </Dependent>
           </ReferentialConstraint>
@@ -319,18 +282,6 @@
             </Principal>
             <Dependent Role="Order">
               <PropertyRef Name="UserID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_OrderItem_Order">
-          <End Role="Order" Type="Self.Order" Multiplicity="1" />
-          <End Role="OrderItem" Type="Self.OrderItem" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Order">
-              <PropertyRef Name="OrderID" />
-            </Principal>
-            <Dependent Role="OrderItem">
-              <PropertyRef Name="OrderID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -361,15 +312,14 @@
         <EntityContainer Name="TradingCompanyEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Items" EntityType="Self.Item" />
           <EntitySet Name="Orders" EntityType="Self.Order" />
-          <EntitySet Name="OrderItems" EntityType="Self.OrderItem" />
           <EntitySet Name="Roles" EntityType="Self.Role" />
           <EntitySet Name="Status" EntityType="Self.Status" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
           <EntitySet Name="Users" EntityType="Self.User" />
           <EntitySet Name="UserRoles" EntityType="Self.UserRole" />
-          <AssociationSet Name="FK_OrderItem_Item" Association="Self.FK_OrderItem_Item">
+          <AssociationSet Name="FK_Order_Item" Association="Self.FK_Order_Item">
             <End Role="Item" EntitySet="Items" />
-            <End Role="OrderItem" EntitySet="OrderItems" />
+            <End Role="Order" EntitySet="Orders" />
           </AssociationSet>
           <AssociationSet Name="FK_Order_Status" Association="Self.FK_Order_Status">
             <End Role="Status" EntitySet="Status" />
@@ -378,10 +328,6 @@
           <AssociationSet Name="FK_Order_User" Association="Self.FK_Order_User">
             <End Role="User" EntitySet="Users" />
             <End Role="Order" EntitySet="Orders" />
-          </AssociationSet>
-          <AssociationSet Name="FK_OrderItem_Order" Association="Self.FK_OrderItem_Order">
-            <End Role="Order" EntitySet="Orders" />
-            <End Role="OrderItem" EntitySet="OrderItems" />
           </AssociationSet>
           <AssociationSet Name="FK_UserRole_Role" Association="Self.FK_UserRole_Role">
             <End Role="Role" EntitySet="Roles" />
@@ -416,18 +362,9 @@
               <MappingFragment StoreEntitySet="Order">
                 <ScalarProperty Name="OrderID" ColumnName="OrderID" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
-                <ScalarProperty Name="StatusID" ColumnName="StatusID" />
-                <ScalarProperty Name="RowInsertTime" ColumnName="RowInsertTime" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="OrderItems">
-            <EntityTypeMapping TypeName="TradingCompanyModel.OrderItem">
-              <MappingFragment StoreEntitySet="OrderItem">
-                <ScalarProperty Name="OrderID" ColumnName="OrderID" />
                 <ScalarProperty Name="ItemID" ColumnName="ItemID" />
                 <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="StatusID" ColumnName="StatusID" />
                 <ScalarProperty Name="RowInsertTime" ColumnName="RowInsertTime" />
               </MappingFragment>
             </EntityTypeMapping>

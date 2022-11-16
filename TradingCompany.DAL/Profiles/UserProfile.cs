@@ -14,8 +14,7 @@ namespace DAL.Profiles
 
             CreateMap<User, UserDto>()
                 .ForMember(dest => dest.Roles,
-                s => s.MapFrom(u => u.UserRoles.Select(up => up.Role))
-                );
+                s => s.MapFrom(u => u.UserRoles.Select(ur => ur.Role)));
 
             CreateMap<UserDto, User>()
                 .ForMember(dest => dest.UserRoles,

@@ -42,9 +42,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Concrete\AuthManager.cs" />
-    <Compile Include="Concrete\ItemManager.cs" />
+    <Compile Include="Concrete\Manager.cs" />
     <Compile Include="Interfaces\IAuthManager.cs" />
-    <Compile Include="Interfaces\IItemManager.cs" />
+    <Compile Include="Interfaces\IManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -57,6 +57,8 @@
       <Name>TradingCompany.DTO</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -72,9 +72,6 @@
     <Compile Include="Order.cs">
       <DependentUpon>TradingCompanyModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="OrderItem.cs">
-      <DependentUpon>TradingCompanyModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Profiles\ItemProfile.cs" />
     <Compile Include="Profiles\OrderProfile.cs" />
     <Compile Include="Profiles\RoleProfile.cs" />
@@ -124,6 +121,15 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TradingCompany.DTO\TradingCompany.DTO.csproj">
+      <Project>{713c79bf-6da2-4583-b004-e2119a53aea4}</Project>
+      <Name>TradingCompany.DTO</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
     <Content Include="TradingCompanyModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>TradingCompanyModel.edmx</DependentUpon>
@@ -135,16 +141,6 @@
       <LastGenOutput>TradingCompanyModel.cs</LastGenOutput>
     </Content>
   </ItemGroup>
-  <ItemGroup>
-    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\TradingCompany.DTO\TradingCompany.DTO.csproj">
-      <Project>{713c79bf-6da2-4583-b004-e2119a53aea4}</Project>
-      <Name>TradingCompany.DTO</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

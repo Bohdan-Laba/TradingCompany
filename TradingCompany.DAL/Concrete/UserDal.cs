@@ -2,7 +2,9 @@
 using DAL.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data.Entity;
+using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
@@ -30,20 +32,22 @@ namespace DAL.Concrete
                 }
 
                 Guid salt = Guid.NewGuid();
-                var user = new User
+                var user = new UserDto
                 {
                     Login = login,
                     Email = email,
                     Password = hash(password, salt.ToString()),
                     Salt = salt,
                     RowInsertTime = DateTime.UtcNow,
-                    RowUpdateTime = DateTime.UtcNow
+                    Roles = roles
                 };
 
-                entities.Users.Add(user);
+                var userDb = _mapper.Map<User>(user);
+                user.UserID = userDb.UserID;
+                userDb.RowUpdateTime = DateTime.UtcNow;
+                entities.Users.Add(userDb);
                 entities.SaveChanges();
-
-                return _mapper.Map<UserDto>(user);
+                return user;
             }
         }
 
@@ -51,7 +55,8 @@ namespace DAL.Concrete
         {
             using (var entities = new TradingCompanyEntities())
             {
-                var userf = entities.Users/*.Include(db => db.UserRoles.Select(c=>c.Role))*/
+                var userf = entities.Users
+                    .Include(db => db.UserRoles.Select(c => c.Role))/*.Include(db => db.UserRoles.Select(c=>c.Role))*/
                     .SingleOrDefault(obj => obj.UserID == id);
                 if (userf != null)
                 {
@@ -91,21 +96,52 @@ namespace DAL.Concrete
         }
 
 
-        public void UpdateUser(UserDto user)
+        public UserDto UpdateUser(int id, string login, string email, string password, List<RoleDto> roles)
         {
             using (var entities = new TradingCompanyEntities())
             {
-                var userf = entities.Users.SingleOrDefault(obj => obj.UserID == user.UserID);
+                var userf = entities.Users
+                    .Include(db => db.UserRoles.Select(c => c.Role))
+                    .SingleOrDefault(obj => obj.UserID == id);
                 if (userf != null)
                 {
-                    userf.Login = user.Login;
-                    userf.Email = user.Email;
-                    userf.Password = user.Password;
+                    entities.UserRoles.RemoveRange(userf.UserRoles);
+
+                    userf.Login = login;
+                    userf.Email = email;
+                    userf.Password = string.IsNullOrWhiteSpace(password) ?
+                        userf.Password : hash(password, userf.Salt.ToString());
+
                     userf.RowUpdateTime = DateTime.UtcNow;
+                    var userdto = _mapper.Map<UserDto>(userf);
+                    userdto.Roles = roles;
+                    userf = _mapper.Map<User>(userdto);
+                    userf.RowUpdateTime = DateTime.UtcNow;
+                    entities.UserRoles.AddRange(userf.UserRoles);
+                    
                     entities.SaveChanges();
+                    return userdto;
                 }
+                throw new Exception("User not found");
             }
         }
+
+        //public void UpdateRoles(UserDto user, List<RoleDto> roles)
+        //{
+        //    using (var entities = new TradingCompanyEntities())
+        //    {
+        //        foreach (var r in roles)
+        //        {
+        //            entities.UserRoles.Add(new UserRole
+        //            {
+        //                UserID = user.UserID,
+        //                RoleID = r.RoleID
+        //            });
+        //            entities.SaveChanges();
+        //        }
+        //        //entities.SaveChanges();
+        //    }
+        //}
         public bool Login(string login, string password)
         {
             using (var entities = new TradingCompanyEntities())

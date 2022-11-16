@@ -9,7 +9,7 @@ namespace DAL.Interfaces
         List<OrderDto> GetAllOrders();
         OrderDto CreateOrder(OrderDto order);
         OrderDto GetOrder(int id);
-        void UpdateOrder(OrderDto order);
+        bool UpdateOrder(OrderDto order);
         void DeleteOrder(int id);
     }
 }
